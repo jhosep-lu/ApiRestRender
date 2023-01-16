@@ -16,10 +16,13 @@ const pool = new Pool({
 });
 
 const getUsers = async (req, res) => {
-    const response = await pool.query('SELECT * FROM usuarios');
-    //console.log(response.rows) ;
-    //res.send('users');
-    res.status(200).json(response.rows);
+    try {
+        const response = await pool.query('SELECT * FROM usuarios');
+        res.status(200).json(response.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error al obtener los usuarios' });
+    }
 };
 
 const createUser = async (req, res) => {
